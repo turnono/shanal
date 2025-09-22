@@ -1,14 +1,16 @@
 export const environment = {
   production: true,
   firebase: {
-    apiKey: "your-production-api-key",
-    authDomain: "your-project.firebaseapp.com",
-    projectId: "your-project-id",
-    storageBucket: "your-project.appspot.com",
-    messagingSenderId: "123456789",
-    appId: "your-app-id",
+    apiKey: "AIzaSyBfCXzGoOWJmYhbkDIssX-2F3YSt3onhi4",
+    authDomain: "shanal.firebaseapp.com",
+    projectId: "shanal",
+    storageBucket: "shanal.firebasestorage.app",
+    messagingSenderId: "695845474792",
+    appId: "1:695845474792:web:c931691f9b34ef6dbf545d",
+    measurementId: "G-BJ4K4H91DD",
   },
   stripe: {
     publishableKey: "your-production-stripe-publishable-key",
   },
+  useEmulators: false,
 };

@@ -30,10 +30,18 @@ export class BookingService {
       updatedAt: new Date(),
     };
 
-    return addDoc(
-      collection(this.firestore, this.bookingsCollection),
-      booking
-    ).then((docRef) => docRef.id);
+    console.log("Creating booking:", booking);
+    console.log("Firestore instance:", this.firestore);
+
+    return addDoc(collection(this.firestore, this.bookingsCollection), booking)
+      .then((docRef) => {
+        console.log("Booking created with ID:", docRef.id);
+        return docRef.id;
+      })
+      .catch((error) => {
+        console.error("Error creating booking:", error);
+        throw error;
+      });
   }
 
   getBookings(): Observable<Booking[]> {
