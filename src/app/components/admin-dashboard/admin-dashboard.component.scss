@@ -1,0 +1,575 @@
+// Variables
+$primary-color: #2563eb;
+$secondary-color: #1e40af;
+$accent-color: #f59e0b;
+$success-color: #10b981;
+$warning-color: #f59e0b;
+$error-color: #ef4444;
+$text-color: #1f2937;
+$text-light: #6b7280;
+$background-color: #ffffff;
+$background-light: #f9fafb;
+$border-color: #e5e7eb;
+$border-light: #f3f4f6;
+
+// Mixins
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin card-shadow {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+@mixin button-style {
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+}
+
+// Base styles
+.admin-container {
+  min-height: 100vh;
+  font-family: "Inter", sans-serif;
+  color: $text-color;
+  background: $background-light;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+// Header
+.admin-header {
+  background: $background-color;
+  border-bottom: 1px solid $border-color;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(10px);
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 0;
+}
+
+.logo h1 {
+  font-size: 24px;
+  font-weight: 700;
+  color: $primary-color;
+  margin: 0;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.welcome-text {
+  color: $text-light;
+  font-size: 14px;
+}
+
+.logout-btn {
+  @include button-style;
+  background: $error-color;
+  color: white;
+
+  &:hover {
+    background: darken($error-color, 10%);
+  }
+}
+
+// Login Form
+.login-container {
+  @include flex-center;
+  min-height: calc(100vh - 80px);
+  padding: 40px 20px;
+}
+
+.login-form {
+  background: $background-color;
+  padding: 40px;
+  border-radius: 16px;
+  @include card-shadow;
+  width: 100%;
+  max-width: 400px;
+}
+
+.login-form h2 {
+  text-align: center;
+  margin-bottom: 32px;
+  font-size: 28px;
+  font-weight: 600;
+  color: $text-color;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: $text-color;
+}
+
+.form-input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid $border-color;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: border-color 0.2s ease;
+  box-sizing: border-box;
+
+  &:focus {
+    outline: none;
+    border-color: $primary-color;
+  }
+
+  &::placeholder {
+    color: $text-light;
+  }
+}
+
+.btn-primary {
+  @include button-style;
+  background: $primary-color;
+  color: white;
+  width: 100%;
+  font-size: 16px;
+  padding: 12px 24px;
+
+  &:hover:not(:disabled) {
+    background: $secondary-color;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.error-message {
+  background: #fef2f2;
+  color: $error-color;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-top: 16px;
+  border: 1px solid #fecaca;
+  font-size: 14px;
+}
+
+// Dashboard Content
+.dashboard-content {
+  padding: 32px 0;
+}
+
+// Stats Grid
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.stat-card {
+  background: $background-color;
+  padding: 24px;
+  border-radius: 12px;
+  @include card-shadow;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.stat-icon {
+  font-size: 32px;
+  width: 60px;
+  height: 60px;
+  @include flex-center;
+  background: $background-light;
+  border-radius: 12px;
+}
+
+.stat-content h3 {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0 0 4px 0;
+  color: $text-color;
+}
+
+.stat-content p {
+  margin: 0;
+  color: $text-light;
+  font-size: 14px;
+}
+
+// Filter Tabs
+.filter-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.tab-btn {
+  @include button-style;
+  background: $background-color;
+  color: $text-color;
+  border: 2px solid $border-color;
+
+  &.active {
+    background: $primary-color;
+    color: white;
+    border-color: $primary-color;
+  }
+
+  &:hover:not(.active) {
+    background: $background-light;
+    border-color: $primary-color;
+  }
+}
+
+// Bookings Section
+.bookings-section h2 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: $text-color;
+}
+
+.bookings-table {
+  background: $background-color;
+  border-radius: 12px;
+  overflow: hidden;
+  @include card-shadow;
+}
+
+.table-header {
+  display: grid;
+  grid-template-columns: 2fr 1.5fr 1fr 1fr 2fr;
+  gap: 16px;
+  padding: 16px 20px;
+  background: $background-light;
+  border-bottom: 1px solid $border-color;
+  font-weight: 600;
+  color: $text-color;
+}
+
+.table-row {
+  display: grid;
+  grid-template-columns: 2fr 1.5fr 1fr 1fr 2fr;
+  gap: 16px;
+  padding: 16px 20px;
+  border-bottom: 1px solid $border-light;
+  align-items: center;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:hover {
+    background: $background-light;
+  }
+}
+
+.col {
+  display: flex;
+  align-items: center;
+}
+
+.customer-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.customer-info strong {
+  font-weight: 600;
+  color: $text-color;
+}
+
+.phone {
+  font-size: 14px;
+  color: $text-light;
+}
+
+.service-name {
+  font-weight: 500;
+  color: $text-color;
+}
+
+.booking-date {
+  font-size: 14px;
+  color: $text-color;
+}
+
+// Status Badges
+.status-badge {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-pending {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.status-pending_payment {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.status-confirmed {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.status-cancelled {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+// Action Buttons
+.action-buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.btn-small {
+  @include button-style;
+  padding: 6px 12px;
+  font-size: 12px;
+}
+
+.btn-secondary {
+  background: $background-light;
+  color: $text-color;
+  border: 1px solid $border-color;
+
+  &:hover {
+    background: $border-color;
+  }
+}
+
+.btn-success {
+  background: $success-color;
+  color: white;
+
+  &:hover {
+    background: darken($success-color, 10%);
+  }
+}
+
+.btn-info {
+  background: $primary-color;
+  color: white;
+
+  &:hover {
+    background: $secondary-color;
+  }
+}
+
+// Modal Styles
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  @include flex-center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modal {
+  background: $background-color;
+  border-radius: 16px;
+  max-width: 600px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  @include card-shadow;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 24px 0;
+  border-bottom: 1px solid $border-color;
+  margin-bottom: 24px;
+}
+
+.modal-header h3 {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0;
+  color: $text-color;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: $text-light;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  @include flex-center;
+
+  &:hover {
+    color: $text-color;
+  }
+}
+
+.modal-body {
+  padding: 0 24px 24px;
+}
+
+// Details Grid
+.details-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.detail-item label {
+  font-weight: 600;
+  color: $text-color;
+  font-size: 14px;
+}
+
+.detail-item span {
+  color: $text-light;
+  font-size: 16px;
+}
+
+.payment-link-container {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.payment-link-input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid $border-color;
+  border-radius: 6px;
+  font-size: 14px;
+  background: $background-light;
+  color: $text-light;
+}
+
+// Responsive Design
+@media (max-width: 1024px) {
+  .table-header,
+  .table-row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .col {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .action-buttons {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 16px;
+  }
+
+  .header-content {
+    flex-direction: column;
+    gap: 16px;
+    text-align: center;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .filter-tabs {
+    justify-content: center;
+  }
+
+  .tab-btn {
+    flex: 1;
+    min-width: 120px;
+  }
+
+  .login-form {
+    padding: 24px;
+  }
+
+  .modal {
+    margin: 20px;
+    max-width: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stat-card {
+    padding: 16px;
+  }
+
+  .stat-icon {
+    width: 48px;
+    height: 48px;
+    font-size: 24px;
+  }
+
+  .stat-content h3 {
+    font-size: 24px;
+  }
+
+  .filter-tabs {
+    flex-direction: column;
+  }
+
+  .tab-btn {
+    width: 100%;
+  }
+}

@@ -1,0 +1,511 @@
+// Variables
+$primary-color: #2563eb;
+$secondary-color: #1e40af;
+$accent-color: #f59e0b;
+$text-color: #1f2937;
+$text-light: #6b7280;
+$background-color: #ffffff;
+$background-light: #f9fafb;
+$border-color: #e5e7eb;
+$success-color: #10b981;
+$error-color: #ef4444;
+
+// Mixins
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin card-shadow {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+@mixin button-style {
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+}
+
+// Base styles
+.home-container {
+  min-height: 100vh;
+  font-family: "Inter", sans-serif;
+  color: $text-color;
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+// Header
+.header {
+  background: $background-color;
+  border-bottom: 1px solid $border-color;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(10px);
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 0;
+}
+
+.logo h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: $primary-color;
+  margin: 0;
+}
+
+.logo p {
+  font-size: 14px;
+  color: $text-light;
+  margin: 0;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.nav-link {
+  color: $text-color;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: $primary-color;
+  }
+}
+
+.admin-btn {
+  @include button-style;
+  background: $accent-color;
+  color: white;
+
+  &:hover {
+    background: darken($accent-color, 10%);
+  }
+}
+
+// Hero Section
+.hero {
+  background: linear-gradient(135deg, $primary-color 0%, $secondary-color 100%);
+  color: white;
+  padding: 80px 0;
+  text-align: center;
+}
+
+.hero-content h2 {
+  font-size: 48px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  line-height: 1.2;
+}
+
+.hero-content p {
+  font-size: 20px;
+  margin-bottom: 32px;
+  opacity: 0.9;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cta-button {
+  @include button-style;
+  background: $accent-color;
+  color: white;
+  font-size: 18px;
+  padding: 16px 32px;
+
+  &:hover {
+    background: darken($accent-color, 10%);
+    transform: translateY(-2px);
+  }
+}
+
+// Services Section
+.services {
+  padding: 80px 0;
+  background: $background-light;
+}
+
+.section-title {
+  font-size: 36px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 48px;
+  color: $text-color;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 32px;
+}
+
+.service-card {
+  background: $background-color;
+  border-radius: 16px;
+  overflow: hidden;
+  @include card-shadow;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+      0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  }
+}
+
+.service-image {
+  height: 200px;
+  background: linear-gradient(135deg, $primary-color, $secondary-color);
+  @include flex-center;
+}
+
+.service-placeholder {
+  @include flex-center;
+  width: 100%;
+  height: 100%;
+}
+
+.service-icon {
+  font-size: 64px;
+  opacity: 0.8;
+}
+
+.service-content {
+  padding: 24px;
+}
+
+.service-content h3 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: $text-color;
+}
+
+.service-content p {
+  color: $text-light;
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+.service-price {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.price {
+  font-size: 28px;
+  font-weight: 700;
+  color: $primary-color;
+}
+
+.duration {
+  color: $text-light;
+  font-size: 14px;
+}
+
+.book-btn {
+  @include button-style;
+  background: $primary-color;
+  color: white;
+  width: 100%;
+
+  &:hover {
+    background: $secondary-color;
+  }
+}
+
+// Contact Section
+.contact {
+  padding: 80px 0;
+  background: $background-color;
+}
+
+.contact-info {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 32px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 24px;
+  background: $background-light;
+  border-radius: 12px;
+  @include card-shadow;
+}
+
+.contact-icon {
+  font-size: 32px;
+}
+
+.contact-item h4 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: $text-color;
+}
+
+.contact-item p {
+  color: $text-light;
+  margin: 0;
+}
+
+// Footer
+.footer {
+  background: $text-color;
+  color: white;
+  padding: 32px 0;
+  text-align: center;
+}
+
+// Modal Styles
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  @include flex-center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modal {
+  background: $background-color;
+  border-radius: 16px;
+  max-width: 500px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  @include card-shadow;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 24px 0;
+  border-bottom: 1px solid $border-color;
+  margin-bottom: 24px;
+}
+
+.modal-header h3 {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0;
+  color: $text-color;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: $text-light;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  @include flex-center;
+
+  &:hover {
+    color: $text-color;
+  }
+}
+
+.modal-body {
+  padding: 0 24px 24px;
+}
+
+// Form Styles
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: $text-color;
+}
+
+.form-input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid $border-color;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: border-color 0.2s ease;
+  box-sizing: border-box;
+
+  &:focus {
+    outline: none;
+    border-color: $primary-color;
+  }
+
+  &::placeholder {
+    color: $text-light;
+  }
+}
+
+textarea.form-input {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.form-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 32px;
+}
+
+.btn-primary {
+  @include button-style;
+  background: $primary-color;
+  color: white;
+
+  &:hover:not(:disabled) {
+    background: $secondary-color;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.btn-secondary {
+  @include button-style;
+  background: $background-light;
+  color: $text-color;
+  border: 2px solid $border-color;
+
+  &:hover {
+    background: $border-color;
+  }
+}
+
+// Success Modal
+.success-modal {
+  text-align: center;
+}
+
+.success-content {
+  @include flex-center;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.success-icon {
+  font-size: 64px;
+}
+
+.success-content p {
+  color: $text-light;
+  line-height: 1.6;
+  margin: 0;
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .header-content {
+    flex-direction: column;
+    gap: 16px;
+    text-align: center;
+  }
+
+  .nav {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .hero-content h2 {
+    font-size: 36px;
+  }
+
+  .hero-content p {
+    font-size: 18px;
+  }
+
+  .services-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .contact-info {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .modal {
+    margin: 20px;
+    max-width: none;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 16px;
+  }
+
+  .hero {
+    padding: 60px 0;
+  }
+
+  .hero-content h2 {
+    font-size: 28px;
+  }
+
+  .services {
+    padding: 60px 0;
+  }
+
+  .contact {
+    padding: 60px 0;
+  }
+
+  .section-title {
+    font-size: 28px;
+  }
+}

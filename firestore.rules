@@ -1,0 +1,32 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Bookings collection rules
+    match /bookings/{bookingId} {
+      // Allow read access to authenticated users (for admin dashboard)
+      allow read: if request.auth != null;
+      
+      // Allow create access to anyone (for customer bookings)
+      allow create: if true;
+      
+      // Allow update access only to authenticated users (for admin operations)
+      allow update: if request.auth != null;
+      
+      // Allow delete access only to authenticated users (for admin operations)
+      allow delete: if request.auth != null;
+    }
+    
+    // Users collection rules (if needed for user profiles)
+    match /users/{userId} {
+      // Users can read and write their own data
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // Admin collection rules (for admin configuration)
+    match /admin/{document} {
+      // Only authenticated admin users can access admin documents
+      allow read, write: if request.auth != null && 
+        request.auth.token.admin == true;
+    }
+  }
+}
