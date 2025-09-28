@@ -20,12 +20,6 @@ import {
 } from "@angular/fire/app-check";
 import { routes } from "./app/app.routes";
 import { environment } from "./environments/environment";
-import {
-  provideAppCheck,
-  initializeAppCheck,
-  ReCaptchaV3Provider,
-} from "@angular/fire/app-check";
-
 const providers = [
   provideRouter(routes),
   provideFirebaseApp(() => initializeApp(environment.firebase)),
