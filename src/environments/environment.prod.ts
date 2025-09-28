@@ -12,5 +12,8 @@ export const environment = {
   stripe: {
     publishableKey: "your-production-stripe-publishable-key",
   },
+  appCheck: {
+    reCaptchaV3SiteKey: "your-production-recaptcha-v3-site-key",
+  },
   useEmulators: false,
 };

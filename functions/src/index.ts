@@ -6,6 +6,17 @@ import { getFirestore, FieldValue } from "firebase-admin/firestore";
 import { getAuth } from "firebase-admin/auth";
 import Stripe from "stripe";
 import { logFunctionMetrics, monitorPaymentSuccessRate } from "./monitoring";
+import {
+  requestRoleAssignment,
+  approveRoleAssignment,
+  getPendingRoleRequests,
+} from "./super-admin";
+import {
+  emergencyDisablePayments,
+  emergencyEnablePayments,
+  emergencyDatabaseBackup,
+  getEmergencyStatus,
+} from "./emergency";
 
 // Initialize Firebase Admin
 const app = initializeApp();
@@ -364,3 +375,14 @@ export const systemHealthMonitor = onSchedule(
     }
   }
 );
+
+// Export Super Admin functions
+export { requestRoleAssignment, approveRoleAssignment, getPendingRoleRequests };
+
+// Export Emergency functions
+export {
+  emergencyDisablePayments,
+  emergencyEnablePayments,
+  emergencyDatabaseBackup,
+  getEmergencyStatus,
+};

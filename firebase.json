@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist/shanal-cars-booking",
+    "public": "dist/shanal-cars-booking/browser",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [
       {

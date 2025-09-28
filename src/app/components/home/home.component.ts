@@ -3,13 +3,14 @@ import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { Router } from "@angular/router";
 import { ServicesService } from "../../services/services.service";
+import { AiChatbotComponent } from "../ai-chatbot/ai-chatbot.component";
 import { BookingService } from "../../services/booking.service";
 import { Service, BookingFormData } from "../../models/booking.model";
 
 @Component({
   selector: "app-home",
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, AiChatbotComponent],
   templateUrl: "./home.component.html",
   styleUrls: ["./home.component.scss"],
 })
@@ -48,6 +49,16 @@ export class HomeComponent implements OnInit {
       "airport-transfer": "✈️",
     };
     return icons[serviceId] || "🎯";
+  }
+
+  getServiceImage(index: number): string {
+    const images = [
+      "assets/service-1.jpeg",
+      "assets/service-2.jpeg",
+      "assets/service-3.jpeg",
+      "assets/service-4.jpeg",
+    ];
+    return images[index] || images[0];
   }
 
   openBookingModal(service: Service) {

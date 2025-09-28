@@ -3,10 +3,19 @@ import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { Router } from "@angular/router";
 import { Subscription } from "rxjs";
+// Corrected import paths: the component resides in src/app/components/admin-dashboard,
+// so services are located two levels up in src/app/services and models in src/app/models.
 import { AuthService } from "../../services/auth.service";
 import { BookingService } from "../../services/booking.service";
 import { Booking, BookingStatus } from "../../models/booking.model";
 
+/**
+ * Admin dashboard component for managing bookings. This version has been
+ * adjusted for manual payment handling. The "Generate Payment Link"
+ * functionality has been removed from the UI, and the associated method
+ * has been stubbed out. Admins can mark bookings as confirmed once
+ * payment is received offline.
+ */
 @Component({
   selector: "app-admin-dashboard",
   standalone: true,
@@ -159,10 +168,9 @@ import { Booking, BookingStatus } from "../../models/booking.model";
                   </div>
                   <div class="col">
                     <div class="action-buttons">
+                      <!-- The Generate Payment Link button is disabled for manual payments -->
                       <button
-                        *ngIf="
-                          booking.status === 'pending' && !booking.paymentLink
-                        "
+                        *ngIf="false"
                         class="btn-small btn-primary"
                         (click)="generatePaymentLink(booking)"
                         [disabled]="isGeneratingPayment"
@@ -419,24 +427,16 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
     });
   }
 
+  /**
+   * Stubbed method for generating payment links. In manual payment mode,
+   * this method does nothing. The button triggering this method has
+   * also been disabled in the template.
+   */
   async generatePaymentLink(booking: Booking) {
-    if (!booking.id) return;
-
-    this.isGeneratingPayment = true;
-    try {
-      // This would typically call a Cloud Function to generate the Stripe payment link
-      // For now, we'll simulate it
-      const mockPaymentLink = `https://checkout.stripe.com/pay/cs_test_${booking.id}`;
-      await this.bookingService.updateBookingPaymentLink(
-        booking.id,
-        mockPaymentLink
-      );
-    } catch (error) {
-      console.error("Error generating payment link:", error);
-      alert("Error generating payment link. Please try again.");
-    } finally {
-      this.isGeneratingPayment = false;
-    }
+    // Intentionally left blank. Manual payments do not require a Stripe link.
+    console.warn(
+      `Payment link generation is disabled. Collect payment manually for booking: ${booking.id}`
+    );
   }
 
   async copyPaymentLink(paymentLink: string) {

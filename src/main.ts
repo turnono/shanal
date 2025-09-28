@@ -15,11 +15,24 @@ import {
 } from "@angular/fire/functions";
 import { routes } from "./app/app.routes";
 import { environment } from "./environments/environment";
+import {
+  provideAppCheck,
+  initializeAppCheck,
+  ReCaptchaV3Provider,
+} from "@angular/fire/app-check";
 
 bootstrapApplication(AppComponent, {
   providers: [
     provideRouter(routes),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideAppCheck(() => {
+      return initializeAppCheck(undefined, {
+        provider: new ReCaptchaV3Provider(
+          environment.appCheck.reCaptchaV3SiteKey
+        ),
+        isTokenAutoRefreshEnabled: true,
+      });
+    }),
     provideFirestore(() => {
       const firestore = getFirestore();
       if (environment.useEmulators && !environment.production) {

@@ -12,6 +12,9 @@ export const environment = {
   stripe: {
     publishableKey: "your-stripe-publishable-key",
   },
+  appCheck: {
+    reCaptchaV3SiteKey: "your-recaptcha-v3-site-key",
+  },
   useEmulators: true,
   emulatorConfig: {
     firestore: {
