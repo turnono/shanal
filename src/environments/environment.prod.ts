@@ -11,4 +11,18 @@ export const environment = {
   },
   recaptchaSiteKey: "",
   useEmulators: false,
+  emulatorConfig: {
+    firestore: {
+      host: "127.0.0.1",
+      port: 8081,
+    },
+    auth: {
+      host: "127.0.0.1",
+      port: 9099,
+    },
+    functions: {
+      host: "127.0.0.1",
+      port: 5001,
+    },
+  },
 };
