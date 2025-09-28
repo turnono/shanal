@@ -24,6 +24,7 @@ export class HomeComponent implements OnInit {
 
   bookingFormData: BookingFormData = {
     customerName: "",
+    customerEmail: "",
     customerPhone: "",
     serviceName: "",
     bookingDate: "",
@@ -65,6 +66,7 @@ export class HomeComponent implements OnInit {
     this.selectedService = service;
     this.bookingFormData = {
       customerName: "",
+      customerEmail: "",
       customerPhone: "",
       serviceName: service.name,
       bookingDate: "",

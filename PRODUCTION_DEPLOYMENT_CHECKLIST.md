@@ -5,7 +5,7 @@
 ### ✅ Environment Configuration
 
 - [ ] Firebase project configured for production
-- [ ] Stripe production keys obtained and secured
+- [ ] Notification credentials (SendGrid / WhatsApp webhook) obtained and secured
 - [ ] Domain name configured and SSL certificate ready
 - [ ] Environment variables set for production
 - [ ] Firebase Functions config updated with production keys
@@ -18,13 +18,12 @@
 - [ ] Authentication providers configured
 - [ ] CORS settings configured for production domain
 
-### ✅ Payment Integration
+### ✅ Manual Payment Process
 
-- [ ] Stripe webhook endpoints configured
-- [ ] Payment link generation tested
-- [ ] Webhook signature verification working
-- [ ] Error handling for payment failures
-- [ ] Refund processing capabilities
+- [ ] Owner notification channel tested (email or WhatsApp)
+- [ ] Customer follow-up script prepared
+- [ ] Manual payment acceptance options documented (cash, EFT, mobile wallet)
+- [ ] Admin workflow for confirming or cancelling bookings agreed
 
 ### ✅ Monitoring & Logging
 
@@ -39,9 +38,13 @@
 ### 1. Set Production Configuration
 
 ```bash
-# Set Stripe production keys
-firebase functions:config:set stripe.secret_key="sk_live_..."
-firebase functions:config:set stripe.webhook_secret="whsec_..."
+# Configure owner notification channels
+firebase functions:config:set SENDGRID_API_KEY="SG.xxxxxx"
+firebase functions:config:set NOTIFICATION_EMAIL_TO="owner@example.com"
+firebase functions:config:set NOTIFICATION_EMAIL_FROM="bookings@example.com"
+firebase functions:config:set WHATSAPP_WEBHOOK_URL="https://your-webhook"
+firebase functions:config:set WHATSAPP_API_TOKEN="token_if_required"
+firebase functions:config:set OWNER_WHATSAPP_NUMBER="2301234567"
 
 # Set production environment
 firebase use production
@@ -68,8 +71,6 @@ firebase functions:log
 # Test health check
 curl https://your-domain.com/health
 
-# Verify webhook endpoint
-curl -X POST https://your-functions-url/handleStripeWebhook
 ```
 
 ## 📊 Post-Deployment Verification
@@ -77,8 +78,9 @@ curl -X POST https://your-functions-url/handleStripeWebhook
 ### ✅ Functionality Tests
 
 - [ ] Customer booking form works
-- [ ] Payment links generate correctly
-- [ ] Webhook processing functions
+- [ ] Owner notification delivered
+- [ ] Admin can contact customer from dashboard
+- [ ] Booking status updates correctly reflect manual follow-up
 - [ ] Admin dashboard accessible
 - [ ] Email notifications sent
 - [ ] Database operations working
@@ -103,16 +105,16 @@ curl -X POST https://your-functions-url/handleStripeWebhook
 
 ### Critical Alerts
 
-- Payment failure rate > 5%
+- Notification failures > 5%
 - Function timeout rate > 1%
 - Database connection errors
-- Webhook processing failures
+- Manual follow-up backlog growing
 - High memory usage > 512MB
 
 ### Monitoring Tools
 
 - Firebase Console monitoring
-- Stripe Dashboard alerts
+- Notification provider dashboards (SendGrid, WhatsApp API)
 - Custom health check endpoints
 - Function execution logs
 - Performance metrics collection
@@ -121,16 +123,16 @@ curl -X POST https://your-functions-url/handleStripeWebhook
 
 ### Immediate Rollback (if critical issues)
 
-1. Disable payment link generation
-2. Switch to manual payment processing
-3. Notify customers of temporary issues
-4. Process pending payments manually
+1. Pause automated notifications if they are misconfigured
+2. Communicate with customers about manual follow-up timelines
+3. Track outstanding bookings in Firestore and the admin dashboard
+4. Confirm payments directly with customers before updating statuses
 
 ### Data Recovery
 
 1. Export booking data from Firestore
-2. Verify payment statuses with Stripe
-3. Reconcile any discrepancies
+2. Verify payment commitments recorded during manual follow-up
+3. Reconcile any discrepancies in booking notes
 4. Update booking statuses manually
 
 ## 📞 Support Contacts
@@ -138,7 +140,6 @@ curl -X POST https://your-functions-url/handleStripeWebhook
 ### Technical Support
 
 - Firebase Support: [Firebase Console]
-- Stripe Support: [Stripe Dashboard]
 - Domain Provider: [Your Domain Provider]
 
 ### Emergency Contacts
@@ -152,8 +153,8 @@ curl -X POST https://your-functions-url/handleStripeWebhook
 ### Daily
 
 - [ ] Check function logs for errors
-- [ ] Monitor payment success rates
-- [ ] Verify webhook processing
+- [ ] Monitor pending bookings awaiting follow-up
+- [ ] Verify notification delivery logs
 - [ ] Check system health metrics
 
 ### Weekly

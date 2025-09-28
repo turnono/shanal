@@ -2,7 +2,8 @@
 
 /**
  * Shanal Cars - Payment Flow Testing Script
- *
+ * NOTE: Legacy Stripe automation retained for historical reference. The production system now uses
+ * manual payment coordination, so this script is no longer part of the active deployment workflow.
  * This script tests the complete payment flow from booking creation
  * to payment confirmation using Stripe test mode.
  */

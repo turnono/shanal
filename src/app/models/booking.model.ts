@@ -1,23 +1,20 @@
 export interface Booking {
   id?: string;
   customerName: string;
+  customerEmail?: string;
   customerPhone: string;
   serviceName: string;
   bookingDate: Date;
   notes?: string;
   status: BookingStatus;
-  paymentLink?: string;
   userId?: string;
   paidAt?: Date;
+  ownerNotifiedAt?: Date;
   createdAt: Date;
   updatedAt: Date;
 }
 
-export type BookingStatus =
-  | "pending"
-  | "pending_payment"
-  | "confirmed"
-  | "cancelled";
+export type BookingStatus = "pending" | "confirmed" | "cancelled";
 
 export interface Service {
   id: string;
@@ -31,6 +28,7 @@ export interface Service {
 
 export interface BookingFormData {
   customerName: string;
+  customerEmail?: string;
   customerPhone: string;
   serviceName: string;
   bookingDate: string;

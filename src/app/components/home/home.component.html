@@ -224,6 +224,13 @@
                     </div>
 
                     <div class="form-group">
+                        <label for="customerEmail">Email</label>
+                        <input type="email" id="customerEmail" name="customerEmail"
+                            [(ngModel)]="bookingFormData.customerEmail" class="form-input"
+                            placeholder="you@example.com">
+                    </div>
+
+                    <div class="form-group">
                         <label for="customerPhone">Phone Number *</label>
                         <input type="tel" id="customerPhone" name="customerPhone"
                             [(ngModel)]="bookingFormData.customerPhone" required class="form-input"
@@ -263,8 +270,8 @@
             <div class="modal-body">
                 <div class="success-content">
                     <i class="success-icon">✅</i>
-                    <p>Thank you for your booking request! We will contact you shortly to confirm your reservation and
-                        provide payment details.</p>
+                    <p>Thank you for your booking request! Our team will reach out shortly to confirm availability and
+                        arrange payment manually by cash, EFT, or local mobile wallet.</p>
                     <button class="btn-primary" (click)="closeSuccessModal()">Close</button>
                 </div>
             </div>

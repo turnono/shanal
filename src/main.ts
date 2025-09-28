@@ -13,6 +13,11 @@ import {
   getFunctions,
   connectFunctionsEmulator,
 } from "@angular/fire/functions";
+import {
+  provideAppCheck,
+  initializeAppCheck,
+  ReCaptchaV3Provider,
+} from "@angular/fire/app-check";
 import { routes } from "./app/app.routes";
 import { environment } from "./environments/environment";
 import {
@@ -21,49 +26,55 @@ import {
   ReCaptchaV3Provider,
 } from "@angular/fire/app-check";
 
-bootstrapApplication(AppComponent, {
-  providers: [
-    provideRouter(routes),
-    provideFirebaseApp(() => initializeApp(environment.firebase)),
-    provideAppCheck(() => {
-      return initializeAppCheck(undefined, {
-        provider: new ReCaptchaV3Provider(
-          environment.appCheck.reCaptchaV3SiteKey
-        ),
+const providers = [
+  provideRouter(routes),
+  provideFirebaseApp(() => initializeApp(environment.firebase)),
+  provideFirestore(() => {
+    const firestore = getFirestore();
+    if (environment.useEmulators && !environment.production) {
+      connectFirestoreEmulator(
+        firestore,
+        environment.emulatorConfig.firestore.host,
+        environment.emulatorConfig.firestore.port
+      );
+    }
+    return firestore;
+  }),
+  provideAuth(() => {
+    const auth = getAuth();
+    if (environment.useEmulators && !environment.production) {
+      connectAuthEmulator(
+        auth,
+        `http://${environment.emulatorConfig.auth.host}:${environment.emulatorConfig.auth.port}`
+      );
+    }
+    return auth;
+  }),
+  provideFunctions(() => {
+    const functions = getFunctions();
+    if (environment.useEmulators && !environment.production) {
+      connectFunctionsEmulator(
+        functions,
+        environment.emulatorConfig.functions.host,
+        environment.emulatorConfig.functions.port
+      );
+    }
+    return functions;
+  }),
+];
+
+const recaptchaKey = environment.recaptchaSiteKey?.trim();
+if (recaptchaKey) {
+  providers.push(
+    provideAppCheck(() =>
+      initializeAppCheck(undefined, {
+        provider: new ReCaptchaV3Provider(recaptchaKey),
         isTokenAutoRefreshEnabled: true,
-      });
-    }),
-    provideFirestore(() => {
-      const firestore = getFirestore();
-      if (environment.useEmulators && !environment.production) {
-        connectFirestoreEmulator(
-          firestore,
-          environment.emulatorConfig.firestore.host,
-          environment.emulatorConfig.firestore.port
-        );
-      }
-      return firestore;
-    }),
-    provideAuth(() => {
-      const auth = getAuth();
-      if (environment.useEmulators && !environment.production) {
-        connectAuthEmulator(
-          auth,
-          `http://${environment.emulatorConfig.auth.host}:${environment.emulatorConfig.auth.port}`
-        );
-      }
-      return auth;
-    }),
-    provideFunctions(() => {
-      const functions = getFunctions();
-      if (environment.useEmulators && !environment.production) {
-        connectFunctionsEmulator(
-          functions,
-          environment.emulatorConfig.functions.host,
-          environment.emulatorConfig.functions.port
-        );
-      }
-      return functions;
-    }),
-  ],
+      })
+    )
+  );
+}
+
+bootstrapApplication(AppComponent, {
+  providers,
 }).catch((err) => console.error(err));

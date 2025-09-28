@@ -15,21 +15,20 @@ A comprehensive car rental and tour booking system for Mauritius, built with Ang
 
 - **Secure Access**: Protected admin area with Firebase Authentication
 - **Booking Management**: View and manage all booking requests
-- **Payment Integration**: Generate Stripe payment links for customers
-- **Real-time Updates**: Live dashboard updates when payments are confirmed
-- **Status Tracking**: Track bookings from pending to confirmed
+- **Manual Payment Coordination**: Tools to contact customers and update booking status after collecting payment offline
+- **Real-time Updates**: Live dashboard updates when bookings are confirmed or cancelled
+- **Status Tracking**: Track bookings from pending to confirmed or cancelled
 
 ### Automated Business Logic
 
-- **Payment Link Generation**: Automatic Stripe payment link creation for new bookings
-- **Payment Confirmation**: Webhook integration to update booking status after successful payment
-- **Email Notifications**: Automated confirmation emails (configurable)
+- **Owner Notifications**: Automatic alerts when new bookings arrive so the team can reach out for manual payment
+- **Status Automation**: Booking follow-up timestamps to track outreach to customers
 
 ## Tech Stack
 
 - **Frontend**: Angular 17 (Standalone Components)
 - **Backend**: Firebase (Firestore, Cloud Functions, Authentication, Hosting)
-- **Payment Processing**: Stripe
+- **Notifications**: SendGrid (email) or WhatsApp webhook (configurable)
 - **Styling**: SCSS with modern design system
 - **Deployment**: Firebase Hosting
 
@@ -37,7 +36,7 @@ A comprehensive car rental and tour booking system for Mauritius, built with Ang
 
 Before you begin, ensure you have the following installed:
 
-- Node.js (v18 or higher)
+- Node.js (v18 or higher; v22 required for Cloud Functions runtime)
 - npm or yarn
 - Firebase CLI
 - Git
@@ -82,6 +81,7 @@ cd ..
    ```bash
    npm install -g firebase-tools
    ```
+   When you are ready for production, set `useEmulators` to `false` in `environment.prod.ts` and provide your real `recaptchaSiteKey`.
 
 2. Login to Firebase:
 
@@ -113,31 +113,45 @@ cd ..
        messagingSenderId: "123456789",
        appId: "your-app-id",
      },
-     stripe: {
-       publishableKey: "your-stripe-publishable-key",
+     recaptchaSiteKey: "", // leave blank locally to disable App Check
+     useEmulators: true,
+     emulatorConfig: {
+       firestore: { host: "127.0.0.1", port: 8081 },
+       auth: { host: "127.0.0.1", port: 9099 },
+       functions: { host: "127.0.0.1", port: 5001 },
      },
    };
    ```
 
-### 4. Stripe Setup
+### 4. Manual Payment & Notification Setup
 
-#### Create a Stripe Account
+Because payments are collected offline, configure at least one notification channel so the owner knows when a new booking arrives.
 
-1. Go to [Stripe Dashboard](https://dashboard.stripe.com/)
-2. Create an account or login
-3. Get your API keys from the Developers section
+#### Option A: Email via SendGrid
 
-#### Configure Stripe
-
-1. Set your Stripe configuration in Firebase Functions:
+1. Create a [SendGrid](https://sendgrid.com/) account and generate an API key.
+2. Set the following Firebase environment variables for Cloud Functions:
 
    ```bash
-   firebase functions:config:set stripe.secret_key="sk_test_your_secret_key"
-   firebase functions:config:set stripe.webhook_secret="whsec_your_webhook_secret"
-   firebase functions:config:set app.base_url="https://your-project.web.app"
+   firebase functions:config:set SENDGRID_API_KEY="YOUR_SENDGRID_API_KEY"
+   firebase functions:config:set NOTIFICATION_EMAIL_TO="owner@example.com"
+   firebase functions:config:set NOTIFICATION_EMAIL_FROM="bookings@example.com"
    ```
 
-2. Update the Stripe publishable key in your environment files
+3. Mirror these values in your hosting configuration (for example using `.env` files) if you deploy with CI/CD.
+
+#### Option B: WhatsApp or Custom Webhook
+
+1. Provide a webhook endpoint that can deliver WhatsApp or SMS alerts.
+2. Configure the webhook details:
+
+   ```bash
+   firebase functions:config:set WHATSAPP_WEBHOOK_URL="https://your-webhook"
+   firebase functions:config:set WHATSAPP_API_TOKEN="YOUR_BEARER_TOKEN"
+   firebase functions:config:set OWNER_WHATSAPP_NUMBER="2301234567"
+   ```
+
+Cloud Functions will try email first and then fall back to the WhatsApp webhook. If neither channel is configured the function will log an error so you can add credentials.
 
 ### 5. Create Admin User
 
@@ -176,14 +190,11 @@ npm run build
 firebase deploy --only hosting
 ```
 
-### 7. Configure Stripe Webhooks
+### 7. Test Booking Notifications
 
-1. In your Stripe Dashboard, go to Webhooks
-2. Add a new webhook endpoint: `https://your-region-your-project.cloudfunctions.net/handleStripeWebhook`
-3. Select these events:
-   - `checkout.session.completed`
-   - `payment_intent.succeeded`
-4. Copy the webhook secret and update your Firebase Functions config
+1. Deploy the latest Cloud Functions with your notification environment variables configured.
+2. Submit a test booking from the public site and verify that the owner receives the email or WhatsApp alert.
+3. Log into the admin dashboard, contact the customer, and update the booking status manually.
 
 ## Development
 
@@ -233,11 +244,10 @@ functions/
 
 1. **Customer Booking**: Customer visits website and submits booking form
 2. **Data Storage**: Booking is saved to Firestore with 'pending' status
-3. **Payment Link Generation**: Cloud Function automatically generates Stripe payment link
-4. **Admin Notification**: Admin sees new booking in dashboard
-5. **Payment Processing**: Admin sends payment link to customer via WhatsApp
-6. **Payment Confirmation**: Stripe webhook updates booking status to 'confirmed'
-7. **Final Confirmation**: Admin sends final confirmation to customer
+3. **Owner Notification**: Cloud Function notifies the owner via email or WhatsApp
+4. **Manual Payment Coordination**: Admin contacts the customer to arrange cash, EFT, or mobile wallet payment
+5. **Status Update**: Admin updates the booking to confirmed or cancelled in the dashboard
+6. **Final Confirmation**: Admin sends a confirmation message to the customer once payment is arranged
 
 ## Customization
 
@@ -263,7 +273,7 @@ functions/
 
 - Firebase Authentication for admin access
 - Firestore security rules for data protection
-- Stripe webhook signature verification
+- Owner notification audit trail via Firestore timestamps
 - Input validation and sanitization
 
 ## Support
