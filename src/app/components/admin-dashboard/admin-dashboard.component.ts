@@ -89,14 +89,7 @@ import { Booking, BookingStatus } from "../../models/booking.model";
               <div class="stat-icon">⏳</div>
               <div class="stat-content">
                 <h3>{{ pendingBookings.length }}</h3>
-                <p>Pending</p>
-              </div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-icon">💳</div>
-              <div class="stat-content">
-                <h3>{{ pendingPaymentBookings.length }}</h3>
-                <p>Pending Payment</p>
+                <p>Awaiting Follow-up</p>
               </div>
             </div>
             <div class="stat-card">
@@ -104,6 +97,13 @@ import { Booking, BookingStatus } from "../../models/booking.model";
               <div class="stat-content">
                 <h3>{{ confirmedBookings.length }}</h3>
                 <p>Confirmed</p>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">❌</div>
+              <div class="stat-content">
+                <h3>{{ cancelledBookings.length }}</h3>
+                <p>Cancelled</p>
               </div>
             </div>
           </div>
@@ -138,6 +138,9 @@ import { Booking, BookingStatus } from "../../models/booking.model";
                   <div class="col">
                     <div class="customer-info">
                       <strong>{{ booking.customerName }}</strong>
+                      <span class="email" *ngIf="booking.customerEmail"
+                        >{{ booking.customerEmail }}</span
+                      >
                       <span class="phone">{{ booking.customerPhone }}</span>
                     </div>
                   </div>
@@ -160,28 +163,30 @@ import { Booking, BookingStatus } from "../../models/booking.model";
                   <div class="col">
                     <div class="action-buttons">
                       <button
-                        *ngIf="
-                          booking.status === 'pending' && !booking.paymentLink
-                        "
-                        class="btn-small btn-primary"
-                        (click)="generatePaymentLink(booking)"
-                        [disabled]="isGeneratingPayment"
-                      >
-                        Generate Payment Link
-                      </button>
-                      <button
-                        *ngIf="booking.paymentLink"
                         class="btn-small btn-secondary"
-                        (click)="copyPaymentLink(booking.paymentLink)"
+                        (click)="callCustomer(booking.customerPhone)"
                       >
-                        Copy Payment Link
+                        Call Customer
                       </button>
                       <button
-                        *ngIf="booking.status === 'pending_payment'"
+                        class="btn-small btn-secondary"
+                        (click)="messageCustomer(booking)"
+                      >
+                        WhatsApp
+                      </button>
+                      <button
+                        *ngIf="booking.status === 'pending'"
                         class="btn-small btn-success"
                         (click)="markAsConfirmed(booking)"
                       >
                         Mark as Confirmed
+                      </button>
+                      <button
+                        *ngIf="booking.status === 'pending'"
+                        class="btn-small btn-warning"
+                        (click)="markAsCancelled(booking)"
+                      >
+                        Mark as Cancelled
                       </button>
                       <button
                         class="btn-small btn-info"
@@ -217,6 +222,10 @@ import { Booking, BookingStatus } from "../../models/booking.model";
                 <label>Customer Name:</label>
                 <span>{{ selectedBooking.customerName }}</span>
               </div>
+              <div class="detail-item" *ngIf="selectedBooking.customerEmail">
+                <label>Email:</label>
+                <span>{{ selectedBooking.customerEmail }}</span>
+              </div>
               <div class="detail-item">
                 <label>Phone:</label>
                 <span>{{ selectedBooking.customerPhone }}</span>
@@ -242,22 +251,9 @@ import { Booking, BookingStatus } from "../../models/booking.model";
                 <label>Notes:</label>
                 <span>{{ selectedBooking.notes }}</span>
               </div>
-              <div class="detail-item" *ngIf="selectedBooking.paymentLink">
-                <label>Payment Link:</label>
-                <div class="payment-link-container">
-                  <input
-                    type="text"
-                    [value]="selectedBooking.paymentLink"
-                    readonly
-                    class="payment-link-input"
-                  />
-                  <button
-                    class="btn-small btn-secondary"
-                    (click)="copyPaymentLink(selectedBooking.paymentLink)"
-                  >
-                    Copy
-                  </button>
-                </div>
+              <div class="detail-item" *ngIf="selectedBooking.ownerNotifiedAt">
+                <label>Owner Notified:</label>
+                <span>{{ formatDate(selectedBooking.ownerNotifiedAt) }}</span>
               </div>
               <div class="detail-item" *ngIf="selectedBooking.paidAt">
                 <label>Paid At:</label>
@@ -280,7 +276,6 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
   showDetailsModal = false;
   selectedBooking: Booking | null = null;
   isLoggingIn = false;
-  isGeneratingPayment = false;
   loginError = "";
 
   loginData = {
@@ -290,8 +285,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
 
   statusFilters = [
     { value: "all", label: "All" },
-    { value: "pending", label: "Pending" },
-    { value: "pending_payment", label: "Pending Payment" },
+    { value: "pending", label: "Awaiting Follow-up" },
     { value: "confirmed", label: "Confirmed" },
     { value: "cancelled", label: "Cancelled" },
   ];
@@ -388,20 +382,17 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
     return this.bookings.filter((booking) => booking.status === "pending");
   }
 
-  get pendingPaymentBookings(): Booking[] {
-    return this.bookings.filter(
-      (booking) => booking.status === "pending_payment"
-    );
-  }
-
   get confirmedBookings(): Booking[] {
     return this.bookings.filter((booking) => booking.status === "confirmed");
   }
 
+  get cancelledBookings(): Booking[] {
+    return this.bookings.filter((booking) => booking.status === "cancelled");
+  }
+
   getStatusLabel(status: BookingStatus): string {
     const labels: { [key in BookingStatus]: string } = {
-      pending: "Pending",
-      pending_payment: "Pending Payment",
+      pending: "Awaiting Follow-up",
       confirmed: "Confirmed",
       cancelled: "Cancelled",
     };
@@ -419,43 +410,6 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
     });
   }
 
-  async generatePaymentLink(booking: Booking) {
-    if (!booking.id) return;
-
-    this.isGeneratingPayment = true;
-    try {
-      // This would typically call a Cloud Function to generate the Stripe payment link
-      // For now, we'll simulate it
-      const mockPaymentLink = `https://checkout.stripe.com/pay/cs_test_${booking.id}`;
-      await this.bookingService.updateBookingPaymentLink(
-        booking.id,
-        mockPaymentLink
-      );
-    } catch (error) {
-      console.error("Error generating payment link:", error);
-      alert("Error generating payment link. Please try again.");
-    } finally {
-      this.isGeneratingPayment = false;
-    }
-  }
-
-  async copyPaymentLink(paymentLink: string) {
-    try {
-      await navigator.clipboard.writeText(paymentLink);
-      alert("Payment link copied to clipboard!");
-    } catch (error) {
-      console.error("Error copying to clipboard:", error);
-      // Fallback for older browsers
-      const textArea = document.createElement("textarea");
-      textArea.value = paymentLink;
-      document.body.appendChild(textArea);
-      textArea.select();
-      document.execCommand("copy");
-      document.body.removeChild(textArea);
-      alert("Payment link copied to clipboard!");
-    }
-  }
-
   async markAsConfirmed(booking: Booking) {
     if (!booking.id) return;
 
@@ -465,6 +419,41 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
       console.error("Error updating booking status:", error);
       alert("Error updating booking status. Please try again.");
     }
+  }
+
+  async markAsCancelled(booking: Booking) {
+    if (!booking.id) return;
+
+    try {
+      await this.bookingService.updateBookingStatus(booking.id, "cancelled");
+    } catch (error) {
+      console.error("Error cancelling booking:", error);
+      alert("Error cancelling booking. Please try again.");
+    }
+  }
+
+  callCustomer(phone: string) {
+    if (!phone) {
+      return;
+    }
+    const sanitized = phone.replace(/\s+/g, "");
+    window.open(`tel:${sanitized}`, "_self");
+  }
+
+  messageCustomer(booking: Booking) {
+    if (!booking.customerPhone) {
+      return;
+    }
+    const digits = booking.customerPhone.replace(/[^0-9+]/g, "");
+    const phoneNumber = digits.startsWith("+")
+      ? digits.substring(1)
+      : digits;
+    const message = encodeURIComponent(
+      `Hello ${booking.customerName}, this is Shanal Cars regarding your ${booking.serviceName} booking on ${this.formatDate(
+        booking.bookingDate
+      )}. We will coordinate payment with you.`
+    );
+    window.open(`https://wa.me/${phoneNumber}?text=${message}`, "_blank");
   }
 
   viewBookingDetails(booking: Booking) {

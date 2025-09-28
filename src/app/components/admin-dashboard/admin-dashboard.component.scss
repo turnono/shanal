@@ -308,6 +308,11 @@ $border-light: #f3f4f6;
   color: $text-color;
 }
 
+.customer-info .email {
+  font-size: 14px;
+  color: $text-light;
+}
+
 .phone {
   font-size: 14px;
   color: $text-light;
@@ -336,11 +341,6 @@ $border-light: #f3f4f6;
 .status-pending {
   background: #fef3c7;
   color: #92400e;
-}
-
-.status-pending_payment {
-  background: #dbeafe;
-  color: #1e40af;
 }
 
 .status-confirmed {
@@ -373,6 +373,16 @@ $border-light: #f3f4f6;
 
   &:hover {
     background: $border-color;
+  }
+}
+
+.btn-warning {
+  background: #fbbf24;
+  color: #78350f;
+  border: none;
+
+  &:hover {
+    background: darken(#fbbf24, 10%);
   }
 }
 
@@ -474,22 +484,6 @@ $border-light: #f3f4f6;
 .detail-item span {
   color: $text-light;
   font-size: 16px;
-}
-
-.payment-link-container {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-}
-
-.payment-link-input {
-  flex: 1;
-  padding: 8px 12px;
-  border: 1px solid $border-color;
-  border-radius: 6px;
-  font-size: 14px;
-  background: $background-light;
-  color: $text-light;
 }
 
 // Responsive Design

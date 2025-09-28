@@ -9,9 +9,7 @@ export const environment = {
     appId: "1:695845474792:web:c931691f9b34ef6dbf545d",
     measurementId: "G-BJ4K4H91DD",
   },
-  stripe: {
-    publishableKey: "your-stripe-publishable-key",
-  },
+  recaptchaSiteKey: "",
   useEmulators: true,
   emulatorConfig: {
     firestore: {
