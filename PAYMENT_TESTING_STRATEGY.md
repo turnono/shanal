@@ -1,98 +1,76 @@
-# Shanal Cars - Payment Flow Testing Strategy
+# Shanal Cars - Manual Payment Flow Testing Strategy
 
 ## 🧪 Testing Phases
 
-### Phase 1: Stripe Test Mode Integration
+### Phase 1: Booking Capture & Firestore Write
+- Submit bookings from the public site and verify documents are created with `pending` status.
+- Confirm required fields (name, phone, service, date) are stored accurately.
+- Check that `ownerNotifiedAt` is empty before Cloud Functions run.
 
-- **Test Cards**: Use Stripe's test card numbers
-- **Webhook Testing**: Use Stripe CLI for local webhook testing
-- **Payment Links**: Test with $1 amounts in test mode
+### Phase 2: Owner Notification Delivery
+- Deploy Cloud Functions with SendGrid or WhatsApp credentials in staging.
+- Trigger bookings and ensure at least one notification channel delivers the alert.
+- Inspect Firestore updates to confirm `ownerNotifiedAt` and `updatedAt` are stamped with server timestamps.
 
-### Phase 2: Production Simulation
-
-- **Staging Environment**: Mirror production setup
-- **Real Payment Links**: Generate with test amounts
-- **Webhook Validation**: Test with real Stripe webhooks
-
-### Phase 3: Production Validation
-
-- **Small Transactions**: Start with minimal amounts
-- **Monitoring**: Real-time error tracking
-- **Rollback Plan**: Quick revert capability
+### Phase 3: Admin Follow-up Workflow
+- Log into the admin dashboard, use the contact shortcuts, and confirm you can reach customers.
+- Update bookings to `confirmed` or `cancelled` and verify status changes propagate immediately.
+- Re-run scenarios with cancellations or reschedules to ensure `paidAt` is cleared when reverting.
 
 ## 🔧 Testing Tools & Commands
 
-### Stripe CLI Setup
-
+### Firebase Emulator Suite (optional)
 ```bash
-# Install Stripe CLI
-brew install stripe/stripe-cli/stripe
-
-# Login to Stripe
-stripe login
-
-# Forward webhooks to local emulator
-stripe listen --forward-to localhost:5001/shanal/us-central1/handleStripeWebhook
+# Start local emulators for iterative testing
+firebase emulators:start --only functions,firestore,auth
 ```
 
-### Test Card Numbers
-
-- **Success**: 4242 4242 4242 4242
-- **Decline**: 4000 0000 0000 0002
-- **3D Secure**: 4000 0025 0000 3155
+### Manual Notification Verification
+- **Email**: Inspect SendGrid activity or your inbox for the notification email.
+- **WhatsApp/Webhook**: Review webhook logs or the downstream provider dashboard to confirm delivery.
+- **Firestore**: Watch the `bookings` collection for the `ownerNotifiedAt` timestamp.
 
 ## 📊 Test Scenarios
 
 ### 1. Happy Path Testing
-
-- Customer creates booking
-- Payment link generated
-- Customer completes payment
-- Webhook received and processed
-- Booking status updated to 'confirmed'
+- Customer submits a booking.
+- Owner receives the notification.
+- Admin contacts the customer, collects payment offline, and marks the booking confirmed.
 
 ### 2. Error Scenarios
-
-- Payment declined
-- Webhook timeout
-- Network failures
-- Invalid webhook signatures
+- Notification channel unavailable (SendGrid outage or webhook failure).
+- Incorrect contact information supplied by customer.
+- Admin marks booking cancelled after failed follow-up.
 
 ### 3. Edge Cases
-
-- Duplicate payments
-- Partial payments
-- Refund processing
-- Currency conversion
+- Duplicate bookings for the same date and service.
+- Customer reschedules (admin updates notes and booking date).
+- Notifications configured for both email and WhatsApp fire simultaneously.
 
 ## 🚨 Monitoring & Alerts
 
 ### Critical Metrics
-
-- Payment success rate
-- Webhook processing time
-- Function execution duration
-- Error rates by function
+- Notification success rate.
+- Number of bookings remaining in `pending` status beyond agreed SLA.
+- Cloud Function execution duration and error rate.
+- Firestore write failures.
 
 ### Alert Thresholds
-
-- Payment failure rate > 5%
-- Webhook processing time > 30s
-- Function timeout rate > 1%
-- Database connection errors
+- Notification failure rate > 5%.
+- Pending bookings older than 24 hours without follow-up.
+- Function timeout rate > 1%.
+- Database connection errors.
 
 ## 🔄 Rollback Procedures
 
 ### Immediate Rollback
-
-1. Disable payment link generation
-2. Switch to manual payment processing
-3. Notify customers of temporary issues
-4. Process pending payments manually
+1. Pause notification triggers if they repeatedly fail.
+2. Communicate with the team to handle follow-up manually via existing contact lists.
+3. Track pending bookings in a shared spreadsheet until automation is restored.
+4. Resume Cloud Functions after credentials or provider issues are resolved.
 
 ### Data Recovery
-
-1. Export booking data
-2. Verify payment statuses
-3. Reconcile with Stripe dashboard
-4. Update booking statuses manually
+1. Export booking data from Firestore for audit.
+2. Verify payment commitments recorded during manual calls.
+3. Reconcile notes in the admin dashboard with external records.
+4. Update booking statuses manually once outstanding payments are confirmed.

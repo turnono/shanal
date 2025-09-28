@@ -10,8 +10,9 @@ import {
   orderBy,
   where,
 } from "@angular/fire/firestore";
+import { deleteField } from "firebase/firestore";
 import { Observable } from "rxjs";
-import { Booking, BookingFormData } from "../models/booking.model";
+import { Booking, BookingFormData, BookingStatus } from "../models/booking.model";
 
 @Injectable({
   providedIn: "root",
@@ -24,20 +25,15 @@ export class BookingService {
   createBooking(bookingData: BookingFormData): Promise<string> {
     const booking: Omit<Booking, "id"> = {
       ...bookingData,
+      customerEmail: bookingData.customerEmail?.trim() || undefined,
       bookingDate: new Date(bookingData.bookingDate),
       status: "pending",
       createdAt: new Date(),
       updatedAt: new Date(),
     };
 
-    console.log("Creating booking:", booking);
-    console.log("Firestore instance:", this.firestore);
-
     return addDoc(collection(this.firestore, this.bookingsCollection), booking)
-      .then((docRef) => {
-        console.log("Booking created with ID:", docRef.id);
-        return docRef.id;
-      })
+      .then((docRef) => docRef.id)
       .catch((error) => {
         console.error("Error creating booking:", error);
         throw error;
@@ -60,24 +56,14 @@ export class BookingService {
     return collectionData(q, { idField: "id" }) as Observable<Booking[]>;
   }
 
-  updateBookingStatus(bookingId: string, status: string): Promise<void> {
+  updateBookingStatus(bookingId: string, status: BookingStatus): Promise<void> {
     const bookingRef = doc(this.firestore, this.bookingsCollection, bookingId);
     return updateDoc(bookingRef, {
       status,
       updatedAt: new Date(),
-      ...(status === "confirmed" && { paidAt: new Date() }),
-    });
-  }
-
-  updateBookingPaymentLink(
-    bookingId: string,
-    paymentLink: string
-  ): Promise<void> {
-    const bookingRef = doc(this.firestore, this.bookingsCollection, bookingId);
-    return updateDoc(bookingRef, {
-      paymentLink,
-      status: "pending_payment",
-      updatedAt: new Date(),
+      ...(status === "confirmed"
+        ? { paidAt: new Date() }
+        : { paidAt: deleteField() }),
     });
   }
 }
