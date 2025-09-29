@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+  <defs>
+    <linearGradient id="airportGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#2c3e50" />
+      <stop offset="100%" stop-color="#4ca1af" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#airportGradient)" rx="30" />
+  <g fill="#ffffff" opacity="0.25">
+    <rect x="80" y="80" width="200" height="40" rx="20" />
+    <rect x="520" y="120" width="180" height="35" rx="18" />
+    <circle cx="680" cy="360" r="70" />
+  </g>
+  <g transform="translate(140,170)" fill="#ffffff">
+    <path d="M160 0l60 180h160l20 40H40l40-80 80-20z" opacity="0.95" />
+    <rect x="180" y="180" width="200" height="40" rx="20" />
+  </g>
+  <text x="50%" y="82%" text-anchor="middle" font-family="'Poppins', 'Segoe UI', sans-serif" font-size="58" fill="#eaf6f6" font-weight="600">
+    Airport Transfers
+  </text>
+</svg>

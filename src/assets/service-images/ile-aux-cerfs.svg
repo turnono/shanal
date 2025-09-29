@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+  <defs>
+    <linearGradient id="islandGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4cd964" />
+      <stop offset="100%" stop-color="#00b894" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#islandGradient)" rx="30" />
+  <g opacity="0.35" fill="#ffffff">
+    <circle cx="140" cy="120" r="60" />
+    <circle cx="640" cy="160" r="90" />
+  </g>
+  <g transform="translate(120,200)">
+    <ellipse cx="260" cy="160" rx="220" ry="110" fill="#f7f1a0" />
+    <path d="M120 120c60-80 220-80 280 0 40 50 0 140-140 140s-180-90-140-140z" fill="#2ecc71" />
+    <g fill="#1e8449">
+      <rect x="200" y="60" width="20" height="80" rx="10" />
+      <rect x="320" y="80" width="20" height="80" rx="10" />
+      <path d="M210 40l40 60h-80z" />
+      <path d="M330 50l30 50h-60z" />
+    </g>
+  </g>
+  <text x="50%" y="82%" text-anchor="middle" font-family="'Poppins', 'Segoe UI', sans-serif" font-size="58" fill="#0a3d2b" font-weight="600">
+    Ile Aux Cerfs Escape
+  </text>
+</svg>

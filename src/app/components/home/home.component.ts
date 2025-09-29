@@ -21,6 +21,7 @@ export class HomeComponent implements OnInit {
   showSuccessModal = false;
   isSubmitting = false;
   today = new Date().toISOString().split("T")[0];
+  defaultServiceImage = "assets/service-images/default-service.svg";
 
   bookingFormData: BookingFormData = {
     customerName: "",
@@ -50,16 +51,6 @@ export class HomeComponent implements OnInit {
       "airport-transfer": "✈️",
     };
     return icons[serviceId] || "🎯";
-  }
-
-  getServiceImage(index: number): string {
-    const images = [
-      "assets/service-1.jpeg",
-      "assets/service-2.jpeg",
-      "assets/service-3.jpeg",
-      "assets/service-4.jpeg",
-    ];
-    return images[index] || images[0];
   }
 
   openBookingModal(service: Service) {

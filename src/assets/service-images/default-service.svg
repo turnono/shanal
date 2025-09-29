@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+  <defs>
+    <linearGradient id="defaultGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7f7fd5" />
+      <stop offset="50%" stop-color="#86a8e7" />
+      <stop offset="100%" stop-color="#91eae4" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#defaultGradient)" rx="30" />
+  <g fill="#ffffff" opacity="0.25">
+    <circle cx="120" cy="110" r="70" />
+    <circle cx="620" cy="120" r="90" />
+    <rect x="200" y="360" width="400" height="40" rx="20" />
+  </g>
+  <g fill="none" stroke="#ffffff" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" transform="translate(200,180)">
+    <rect x="0" y="0" width="360" height="200" rx="30" />
+    <path d="M80 260h200" />
+    <path d="M60 60h240" />
+    <path d="M60 120h160" />
+  </g>
+  <text x="50%" y="82%" text-anchor="middle" font-family="'Poppins', 'Segoe UI', sans-serif" font-size="56" fill="#ffffff" font-weight="600">
+    Shanal Tours
+  </text>
+</svg>

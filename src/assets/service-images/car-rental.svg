@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+  <defs>
+    <linearGradient id="carGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b63ce" />
+      <stop offset="100%" stop-color="#58a9ff" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#carGradient)" rx="30" />
+  <g fill="#fff" opacity="0.2">
+    <circle cx="140" cy="120" r="70" />
+    <circle cx="680" cy="380" r="90" />
+    <rect x="320" y="60" width="300" height="40" rx="20" />
+  </g>
+  <g stroke="#fff" stroke-width="16" fill="none" stroke-linecap="round" stroke-linejoin="round" transform="translate(140,200)">
+    <path d="M40 100h320l40 80H0z" />
+    <circle cx="80" cy="200" r="40" fill="#fff" />
+    <circle cx="320" cy="200" r="40" fill="#fff" />
+    <path d="M80 120l60-80h140l60 80" />
+  </g>
+  <text x="50%" y="82%" text-anchor="middle" font-family="'Poppins', 'Segoe UI', sans-serif" font-size="64" fill="#ffffff" font-weight="600">
+    Car Rental Service
+  </text>
+</svg>
