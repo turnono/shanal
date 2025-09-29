@@ -357,21 +357,6 @@ $shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
   z-index: 2;
 }
 
-.service-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  @include flex-center;
-  background: rgba(0, 0, 0, 0.1);
-}
-
-.service-icon {
-  color: white;
-  opacity: 0.9;
-}
-
 .service-content {
   padding: 32px;
 }
