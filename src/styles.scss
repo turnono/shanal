@@ -16,7 +16,7 @@ body {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  background-attachment: fixed;
+  background-attachment: scroll;
 }
 
 /* Consistent overlay for better text readability throughout */
@@ -30,6 +30,23 @@ body::before {
   background: rgba(0, 0, 0, 0.5);
   pointer-events: none;
   z-index: 0;
+}
+
+/* Mobile-specific fixes for background image */
+@media (max-width: 768px) {
+  html,
+  body {
+    background-attachment: scroll;
+    background-size: cover;
+    min-height: 100vh;
+  }
+
+  /* Ensure background works on iOS */
+  body {
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+  }
 }
 
 @keyframes floatingElements {
