@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+  <defs>
+    <linearGradient id="tourGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#f9a826" />
+      <stop offset="100%" stop-color="#ffdd78" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#tourGradient)" rx="30" />
+  <g fill="#ffffff" opacity="0.35">
+    <circle cx="150" cy="130" r="80" />
+    <circle cx="640" cy="120" r="60" />
+    <circle cx="720" cy="160" r="30" />
+  </g>
+  <g fill="#ffffff" transform="translate(120,200)">
+    <path d="M120 160l120-160 120 160z" opacity="0.8" />
+    <path d="M0 200h560v40H0z" opacity="0.9" />
+    <circle cx="420" cy="60" r="40" />
+  </g>
+  <text x="50%" y="78%" text-anchor="middle" font-family="'Poppins', 'Segoe UI', sans-serif" font-size="60" fill="#8b4100" font-weight="600">
+    Guided Sightseeing Tour
+  </text>
+</svg>

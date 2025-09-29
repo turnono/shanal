@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+  <defs>
+    <linearGradient id="seaGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#00c6ff" />
+      <stop offset="100%" stop-color="#0072ff" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#seaGradient)" rx="30" />
+  <g fill="#ffffff" opacity="0.3">
+    <path d="M0 360c60 30 140 30 200 0s140-30 200 0 140 30 200 0 140-30 200 0v140H0z" />
+  </g>
+  <g fill="#ffffff" transform="translate(160,120)">
+    <path d="M160 200l120-200 60 200z" opacity="0.9" />
+    <path d="M0 240h400l-40 60H40z" opacity="0.95" />
+  </g>
+  <text x="50%" y="80%" text-anchor="middle" font-family="'Poppins', 'Segoe UI', sans-serif" font-size="60" fill="#003d7a" font-weight="600">
+    Catamaran Cruise
+  </text>
+</svg>

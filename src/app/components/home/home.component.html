@@ -71,7 +71,7 @@
             <div class="services-grid">
                 <div *ngFor="let service of services; let i = index" class="service-card"
                     (click)="openBookingModal(service)">
-                    <div class="service-image" [style.background-image]="'url(' + getServiceImage(i) + ')'">
+                    <div class="service-image" [style.background-image]="'url(' + (service.imageUrl || defaultServiceImage) + ')'">
                         <div class="service-badge" *ngIf="i === 0">Most Popular</div>
                         <div class="service-overlay">
                             <div class="service-icon">
