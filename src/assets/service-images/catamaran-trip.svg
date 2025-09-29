@@ -13,7 +13,4 @@
     <path d="M160 200l120-200 60 200z" opacity="0.9" />
     <path d="M0 240h400l-40 60H40z" opacity="0.95" />
   </g>
-  <text x="50%" y="80%" text-anchor="middle" font-family="'Poppins', 'Segoe UI', sans-serif" font-size="60" fill="#003d7a" font-weight="600">
-    Catamaran Cruise
-  </text>
 </svg>

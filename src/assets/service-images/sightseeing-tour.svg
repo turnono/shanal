@@ -16,7 +16,4 @@
     <path d="M0 200h560v40H0z" opacity="0.9" />
     <circle cx="420" cy="60" r="40" />
   </g>
-  <text x="50%" y="78%" text-anchor="middle" font-family="'Poppins', 'Segoe UI', sans-serif" font-size="60" fill="#8b4100" font-weight="600">
-    Guided Sightseeing Tour
-  </text>
 </svg>

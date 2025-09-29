@@ -10,6 +10,7 @@ export interface Booking {
   userId?: string;
   paidAt?: Date;
   ownerNotifiedAt?: Date;
+  customerNotifiedAt?: Date;
   createdAt: Date;
   updatedAt: Date;
 }

@@ -71,7 +71,8 @@
             <div class="services-grid">
                 <div *ngFor="let service of services; let i = index" class="service-card"
                     (click)="openBookingModal(service)">
-                    <div class="service-image" [style.background-image]="'url(' + (service.imageUrl || defaultServiceImage) + ')'">
+                    <div class="service-image"
+                        [style.background-image]="'url(' + (service.imageUrl || defaultServiceImage) + ')'">
                         <div class="service-badge" *ngIf="i === 0">Most Popular</div>
                     </div>
                     <div class="service-content">
@@ -117,6 +118,122 @@
                                 </svg>
                             </button>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">What Our Customers Say</h2>
+                <p class="section-subtitle">Don't just take our word for it - hear from our satisfied customers</p>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <div class="stars">★★★★★</div>
+                        <p>"Excellent service! The car was clean and reliable. The team was very professional and helped
+                            us explore Mauritius comfortably. Highly recommended!"</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-info">
+                            <h4>Sarah Johnson</h4>
+                            <span>From UK</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <div class="stars">★★★★★</div>
+                        <p>"The sightseeing tour was amazing! Our guide was knowledgeable and showed us the most
+                            beautiful places in Mauritius. Worth every penny!"</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-info">
+                            <h4>Michael Chen</h4>
+                            <span>From Australia</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <div class="stars">★★★★★</div>
+                        <p>"The catamaran trip was the highlight of our vacation! Beautiful waters, great food, and
+                            excellent service. We'll definitely book again!"</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-info">
+                            <h4>Emma Rodriguez</h4>
+                            <span>From Spain</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2 class="section-title">About Shanal Tours</h2>
+                    <p class="about-description">
+                        With over 5 years of experience in Mauritius tourism, Shanal Tours has been your trusted partner
+                        for unforgettable travel experiences.
+                        We specialize in providing reliable, comfortable, and affordable transportation and tour
+                        services across the beautiful island of Mauritius.
+                    </p>
+                    <div class="about-features">
+                        <div class="feature-item">
+                            <div class="feature-icon">🏆</div>
+                            <div class="feature-content">
+                                <h4>5+ Years Experience</h4>
+                                <p>Trusted by thousands of satisfied customers</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">🛡️</div>
+                            <div class="feature-content">
+                                <h4>Fully Licensed & Insured</h4>
+                                <p>Registered business with comprehensive insurance</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">👥</div>
+                            <div class="feature-content">
+                                <h4>Local Expertise</h4>
+                                <p>Born and raised in Mauritius, we know the best spots</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">🚗</div>
+                            <div class="feature-content">
+                                <h4>Modern Fleet</h4>
+                                <p>Well-maintained, air-conditioned vehicles</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">1000+</div>
+                        <div class="stat-label">Happy Customers</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">5000+</div>
+                        <div class="stat-label">Tours Completed</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">4.9/5</div>
+                        <div class="stat-label">Average Rating</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">24/7</div>
+                        <div class="stat-label">Customer Support</div>
                     </div>
                 </div>
             </div>
@@ -260,8 +377,9 @@
             <div class="modal-body">
                 <div class="success-content">
                     <i class="success-icon">✅</i>
-                    <p>Thank you for your booking request! Our team will reach out shortly to confirm availability and
-                        arrange payment manually by cash, EFT, or local mobile wallet.</p>
+                    <p>Thank you for your booking request! You'll receive an email confirmation shortly. Our team will
+                        reach out within 2 hours to confirm availability and arrange payment manually by cash, EFT, or
+                        local mobile wallet.</p>
                     <button class="btn-primary" (click)="closeSuccessModal()">Close</button>
                 </div>
             </div>

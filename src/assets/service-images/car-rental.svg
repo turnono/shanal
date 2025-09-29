@@ -17,7 +17,4 @@
     <circle cx="320" cy="200" r="40" fill="#fff" />
     <path d="M80 120l60-80h140l60 80" />
   </g>
-  <text x="50%" y="82%" text-anchor="middle" font-family="'Poppins', 'Segoe UI', sans-serif" font-size="64" fill="#ffffff" font-weight="600">
-    Car Rental Service
-  </text>
 </svg>

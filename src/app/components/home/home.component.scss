@@ -70,8 +70,8 @@ $shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
 
 // Header
 .header {
-  background: $background-color;
-  border-bottom: 1px solid $border-color;
+  background: rgba(15, 23, 42, 0.95);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   position: sticky;
   top: 0;
   z-index: 100;
@@ -82,19 +82,19 @@ $shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px 0;
+  padding: 12px 0;
 }
 
 .logo h1 {
   font-size: 28px;
   font-weight: 700;
-  color: $primary-color;
+  color: #ffffff;
   margin: 0;
 }
 
 .logo p {
   font-size: 14px;
-  color: $text-light;
+  color: rgba(255, 255, 255, 0.8);
   margin: 0;
 }
 
@@ -105,13 +105,13 @@ $shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
 }
 
 .nav-link {
-  color: $text-color;
+  color: #ffffff;
   text-decoration: none;
   font-weight: 500;
   transition: color 0.2s ease;
 
   &:hover {
-    color: $primary-color;
+    color: $accent-color;
   }
 }
 
@@ -141,22 +141,7 @@ $shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
   left: 0;
   right: 0;
   bottom: 0;
-  background: $gradient-primary;
-  background-image: radial-gradient(
-      circle at 20% 50%,
-      rgba(245, 158, 11, 0.1) 0%,
-      transparent 50%
-    ),
-    radial-gradient(
-      circle at 80% 20%,
-      rgba(245, 158, 11, 0.1) 0%,
-      transparent 50%
-    ),
-    radial-gradient(
-      circle at 40% 80%,
-      rgba(245, 158, 11, 0.1) 0%,
-      transparent 50%
-    );
+  background: transparent;
 }
 
 .hero-overlay {
@@ -165,7 +150,7 @@ $shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(15, 23, 42, 0.4);
+  background: transparent;
 }
 
 .hero-content {
@@ -195,6 +180,8 @@ $shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
   margin-bottom: 24px;
   line-height: 1.1;
   letter-spacing: -0.02em;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  position: relative;
 }
 
 .highlight {
@@ -213,6 +200,8 @@ $shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
   margin-right: auto;
   line-height: 1.6;
   font-weight: 400;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+  position: relative;
 }
 
 .hero-stats {
@@ -233,12 +222,16 @@ $shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
   font-weight: 800;
   color: $accent-light;
   line-height: 1;
+  position: relative;
 }
 
 .stat-label {
   font-size: 14px;
-  opacity: 0.8;
+  color: #ffffff;
+  opacity: 0.9;
   font-weight: 500;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
+  position: relative;
 }
 
 .hero-actions {
@@ -289,7 +282,6 @@ $shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
 // Services Section
 .services {
   padding: 120px 0;
-  background: $background-light;
 }
 
 .section-header {
@@ -301,16 +293,20 @@ $shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
   font-size: clamp(2rem, 4vw, 3rem);
   font-weight: 800;
   margin-bottom: 16px;
-  color: $text-color;
+  color: #ffffff;
   letter-spacing: -0.02em;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  position: relative;
 }
 
 .section-subtitle {
   font-size: 18px;
-  color: $text-light;
+  color: rgba(255, 255, 255, 0.9);
   max-width: 600px;
   margin: 0 auto;
   line-height: 1.6;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+  position: relative;
 }
 
 .services-grid {
@@ -320,7 +316,7 @@ $shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
 }
 
 .service-card {
-  background: $background-color;
+  background: rgba(255, 255, 255, 0.95);
   border-radius: 20px;
   overflow: hidden;
   @include card-shadow;
@@ -389,15 +385,18 @@ $shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
 
 .rating-text {
   font-size: 14px;
-  color: $text-light;
+  color: $text-color;
   font-weight: 500;
+  opacity: 0.7;
 }
 
 .service-description {
-  color: $text-light;
+  color: $text-color;
   margin-bottom: 24px;
   line-height: 1.6;
   font-size: 16px;
+  font-weight: 500;
+  opacity: 0.8;
 }
 
 .service-features {
@@ -412,7 +411,9 @@ $shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
   align-items: center;
   gap: 8px;
   font-size: 14px;
-  color: $text-light;
+  color: $text-color;
+  font-weight: 500;
+  opacity: 0.7;
 
   svg {
     color: $success-color;
@@ -442,9 +443,10 @@ $shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
 }
 
 .duration {
-  color: $text-light;
+  color: $text-color;
   font-size: 14px;
   font-weight: 500;
+  opacity: 0.7;
 }
 
 .book-btn {
@@ -468,7 +470,6 @@ $shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
 // Contact Section
 .contact {
   padding: 80px 0;
-  background: $background-color;
 }
 
 .contact-info {
@@ -484,9 +485,10 @@ $shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
   align-items: center;
   gap: 16px;
   padding: 24px;
-  background: $background-light;
+  background: rgba(255, 255, 255, 0.95);
   border-radius: 12px;
   @include card-shadow;
+  position: relative;
 }
 
 .contact-icon {
@@ -498,11 +500,14 @@ $shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
   font-weight: 600;
   margin-bottom: 4px;
   color: $text-color;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .contact-item p {
-  color: $text-light;
+  color: $text-color;
   margin: 0;
+  font-weight: 500;
+  opacity: 0.8;
 }
 
 // Footer
@@ -529,6 +534,8 @@ $shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
 .footer-main p {
   margin-bottom: 8px;
   opacity: 0.9;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  font-weight: 500;
 }
 
 .footer-services h4,
@@ -548,11 +555,15 @@ $shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
 .footer-services li {
   margin-bottom: 8px;
   opacity: 0.9;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  font-weight: 500;
 }
 
 .footer-contact p {
   margin-bottom: 8px;
   opacity: 0.9;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  font-weight: 500;
 }
 
 .footer-bottom {
@@ -560,6 +571,8 @@ $shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
   padding-top: 20px;
   text-align: center;
   opacity: 0.8;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  font-weight: 500;
 }
 
 // Modal Styles
@@ -599,6 +612,7 @@ $shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
   font-weight: 600;
   margin: 0;
   color: $text-color;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .close-btn {
@@ -628,9 +642,10 @@ $shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
 
 .form-group label {
   display: block;
-  font-weight: 500;
+  font-weight: 600;
   margin-bottom: 8px;
   color: $text-color;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .form-input {
@@ -709,6 +724,8 @@ textarea.form-input {
   color: $text-light;
   line-height: 1.6;
   margin: 0;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
+  font-weight: 500;
 }
 
 // Responsive Design
@@ -779,6 +796,211 @@ textarea.form-input {
   }
 
   .section-title {
+    font-size: 28px;
+  }
+}
+
+// Testimonials Section
+.testimonials {
+  padding: 80px 0;
+}
+
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 32px;
+  margin-top: 48px;
+}
+
+.testimonial-card {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 32px;
+  border-radius: 16px;
+  @include card-shadow;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  position: relative;
+
+  &:hover {
+    @include card-shadow-hover;
+    transform: translateY(-4px);
+  }
+}
+
+.testimonial-content {
+  margin-bottom: 24px;
+}
+
+.testimonial-content .stars {
+  color: $accent-color;
+  font-size: 18px;
+  margin-bottom: 16px;
+}
+
+.testimonial-content p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: $text-color;
+  font-style: italic;
+  margin: 0;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+  font-weight: 500;
+}
+
+.testimonial-author {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.author-info h4 {
+  font-size: 16px;
+  font-weight: 600;
+  color: $text-color;
+  margin: 0 0 4px 0;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.author-info span {
+  font-size: 14px;
+  color: $text-color;
+  font-weight: 500;
+  opacity: 0.7;
+}
+
+// About Section
+.about {
+  padding: 80px 0;
+}
+
+.about-content {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 64px;
+  align-items: start;
+}
+
+.about-description {
+  font-size: 18px;
+  line-height: 1.7;
+  color: #ffffff;
+  margin: 24px 0 40px 0;
+  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.9);
+  font-weight: 500;
+  position: relative;
+}
+
+.about-features {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+.feature-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.feature-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+.feature-content h4 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0 0 8px 0;
+  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.9);
+  position: relative;
+}
+
+.feature-content p {
+  font-size: 14px;
+  color: #ffffff;
+  margin: 0;
+  line-height: 1.5;
+  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.9);
+  font-weight: 500;
+  position: relative;
+}
+
+.about-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px;
+}
+
+.stat-item {
+  text-align: center;
+  padding: 24px;
+  background: $background-light;
+  border-radius: 12px;
+  border: 1px solid $border-color;
+  position: relative;
+}
+
+.stat-number {
+  font-size: 32px;
+  font-weight: 700;
+  color: $accent-color;
+  margin-bottom: 8px;
+}
+
+.stat-label {
+  font-size: 14px;
+  color: rgb(169, 140, 237);
+  opacity: 0.9;
+  font-weight: 500;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
+  position: relative;
+}
+
+// Responsive adjustments for new sections
+@media (max-width: 768px) {
+  .testimonials-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .about-content {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+
+  .about-features {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .about-stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .testimonial-card {
+    padding: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .testimonials,
+  .about {
+    padding: 60px 0;
+  }
+
+  .about-stats {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .stat-item {
+    padding: 20px;
+  }
+
+  .stat-number {
     font-size: 28px;
   }
 }

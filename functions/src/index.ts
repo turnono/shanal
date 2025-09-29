@@ -161,6 +161,70 @@ async function trySendWhatsApp(
   return true;
 }
 
+async function sendCustomerConfirmation(
+  bookingId: string,
+  booking: BookingData
+) {
+  const bookingDate = normalizeDate(booking.bookingDate);
+  const formattedDate = bookingDate.toLocaleString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
+  if (!booking.customerEmail || !sendgridApiKey) {
+    return; // Skip if no email or SendGrid not configured
+  }
+
+  const message =
+    `Dear ${booking.customerName},\n\n` +
+    `Thank you for choosing Shanal Tours! We have received your booking request and are excited to help you explore Mauritius.\n\n` +
+    `Booking Details:\n` +
+    `• Service: ${booking.serviceName}\n` +
+    `• Date: ${formattedDate}\n` +
+    `• Booking ID: ${bookingId}\n\n` +
+    `What happens next?\n` +
+    `1. Our team will contact you within 2 hours to confirm availability\n` +
+    `2. We'll arrange payment (cash, EFT, or mobile wallet)\n` +
+    `3. You'll receive final confirmation with pickup details\n\n` +
+    `Contact Information:\n` +
+    `📞 Phone: +230 283 1414\n` +
+    `📱 WhatsApp: +230 5707 1414\n` +
+    `📧 Email: shanal@intnet.mu\n\n` +
+    `We look forward to providing you with an unforgettable Mauritius experience!\n\n` +
+    `Best regards,\n` +
+    `The Shanal Tours Team`;
+
+  try {
+    const response = await fetch("https://api.sendgrid.com/v3/mail/send", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${sendgridApiKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        personalizations: [
+          {
+            to: [{ email: booking.customerEmail }],
+          },
+        ],
+        from: { email: notificationEmailFrom },
+        subject: `Booking Confirmation - ${booking.serviceName} on ${formattedDate}`,
+        content: [{ type: "text/plain", value: message }],
+      }),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error(`Customer confirmation email failed: ${errorText}`);
+    }
+  } catch (error) {
+    console.error("Error sending customer confirmation:", error);
+  }
+}
+
 async function sendOwnerNotification(bookingId: string, booking: BookingData) {
   const bookingDate = normalizeDate(booking.bookingDate);
   const formattedDate = bookingDate.toLocaleString("en-US", {
@@ -217,14 +281,20 @@ export const notifyOwnerOnBooking = onDocumentCreated(
     }
 
     try {
-      await sendOwnerNotification(bookingId, bookingData);
+      // Send notifications in parallel
+      await Promise.all([
+        sendOwnerNotification(bookingId, bookingData),
+        sendCustomerConfirmation(bookingId, bookingData),
+      ]);
+
       await event.data?.ref.update({
         updatedAt: FieldValue.serverTimestamp(),
         ownerNotifiedAt: FieldValue.serverTimestamp(),
+        customerNotifiedAt: FieldValue.serverTimestamp(),
       });
       logFunctionMetrics("notifyOwnerOnBooking", startTime);
     } catch (error) {
-      console.error("Failed to send owner notification for", bookingId, error);
+      console.error("Failed to send notifications for", bookingId, error);
       logFunctionMetrics("notifyOwnerOnBooking", startTime, error as Error);
     }
   }

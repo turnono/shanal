@@ -265,6 +265,15 @@ import { Booking, BookingStatus } from "../../models/booking.model";
                 <label>Owner Notified:</label>
                 <span>{{ formatDate(selectedBooking.ownerNotifiedAt) }}</span>
               </div>
+              <div
+                class="detail-item"
+                *ngIf="selectedBooking.customerNotifiedAt"
+              >
+                <label>Customer Notified:</label>
+                <span>{{
+                  formatDate(selectedBooking.customerNotifiedAt)
+                }}</span>
+              </div>
               <div class="detail-item" *ngIf="selectedBooking.paidAt">
                 <label>Paid At:</label>
                 <span>{{ formatDate(selectedBooking.paidAt) }}</span>
