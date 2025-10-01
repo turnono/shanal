@@ -4,7 +4,9 @@ export interface Booking {
   customerEmail?: string;
   customerPhone: string;
   serviceName: string;
-  bookingDate: Date;
+  bookingDate?: Date; // for single‑day services
+  rentalStart?: Date; // car rental start
+  rentalEnd?: Date; // car rental end
   notes?: string;
   status: BookingStatus;
   userId?: string;
@@ -32,6 +34,8 @@ export interface BookingFormData {
   customerEmail?: string;
   customerPhone: string;
   serviceName: string;
-  bookingDate: string;
+  bookingDate: string; // yyyy‑mm‑dd for single‑day services
+  startDate?: string; // yyyy‑mm‑dd for car rental
+  endDate?: string; // yyyy‑mm‑dd for car rental
   notes?: string;
 }

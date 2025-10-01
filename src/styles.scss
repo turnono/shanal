@@ -12,11 +12,22 @@ body {
     sans-serif;
   line-height: 1.6;
   color: #ffffff;
+  background-color: #0f172a;
   background-image: url("assets/mauritius-bg.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
+}
+
+/* Loading state for background image */
+body.loading {
+  background-image: none;
+}
+
+body.loaded {
+  background-image: url("assets/mauritius-bg.jpg");
+  transition: background-image 0.5s ease-in-out;
 }
 
 /* Consistent overlay for better text readability throughout */

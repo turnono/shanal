@@ -11,9 +11,46 @@
                     <a href="#services" class="nav-link">Services</a>
                     <a href="#contact" class="nav-link">Contact</a>
                 </nav>
+                <button class="mobile-menu-btn" (click)="toggleMobileMenu()">
+                    <span class="hamburger"></span>
+                    <span class="hamburger"></span>
+                    <span class="hamburger"></span>
+                </button>
             </div>
         </div>
     </header>
+
+    <!-- Services Filters (disabled for now; uncomment when needed)
+    <section class="services-filters" (ngModelChange)="applyFilters()">
+        <div class="container">
+            <div class="filters">
+                <label>
+                    <span>Type</span>
+                    <select [(ngModel)]="filter.type" (change)="applyFilters()">
+                        <option value="">All</option>
+                        <option value="car-rental">Car Rental</option>
+                        <option value="sightseeing-tour">Sightseeing Tour</option>
+                        <option value="catamaran-trip">Catamaran Trip</option>
+                        <option value="ile-aux-cerfs">Ile Aux Cerfs</option>
+                        <option value="airport-transfer">Airport Transfer</option>
+                    </select>
+                </label>
+                <label>
+                    <span>Max Price (MUR)</span>
+                    <input type="number" min="0" [(ngModel)]="filter.maxPrice" (input)="applyFilters()"
+                        placeholder="e.g. 3000">
+                </label>
+            </div>
+        </div>
+    </section>
+    -->
+    <!-- Mobile Navigation Menu -->
+    <div class="mobile-menu" [class.active]="mobileMenuOpen">
+        <nav class="mobile-nav">
+            <a href="#services" class="mobile-nav-link" (click)="closeMobileMenu()">Services</a>
+            <a href="#contact" class="mobile-nav-link" (click)="closeMobileMenu()">Contact</a>
+        </nav>
+    </div>
 
     <!-- Hero Section -->
     <section class="hero">
@@ -288,6 +325,11 @@
                     <h3>Shanal Tours</h3>
                     <p>Your trusted travel partner in Mauritius</p>
                     <p>Registered Business: C16135271</p>
+                    <div class="footer-social">
+                        <a href="https://facebook.com" target="_blank" rel="noopener" aria-label="Facebook">🔵</a>
+                        <a href="https://instagram.com" target="_blank" rel="noopener" aria-label="Instagram">📸</a>
+                        <a href="https://wa.me/23057071414" target="_blank" rel="noopener" aria-label="WhatsApp">💬</a>
+                    </div>
                 </div>
                 <div class="footer-services">
                     <h4>Our Services</h4>
@@ -321,33 +363,80 @@
                 <button class="close-btn" (click)="closeBookingModal()">&times;</button>
             </div>
             <div class="modal-body">
-                <form (ngSubmit)="submitBooking()" #bookingForm="ngForm">
+                <form (ngSubmit)="submitBooking()" #bookingForm="ngForm" novalidate>
                     <div class="form-group">
                         <label for="customerName">Full Name *</label>
                         <input type="text" id="customerName" name="customerName"
-                            [(ngModel)]="bookingFormData.customerName" required class="form-input"
-                            placeholder="Enter your full name">
+                            [(ngModel)]="bookingFormData.customerName" required minlength="2" class="form-input"
+                            placeholder="Enter your full name" #customerName="ngModel">
+                        <div class="form-error"
+                            *ngIf="customerName.invalid && (customerName.dirty || customerName.touched)">
+                            <small *ngIf="customerName.errors?.['required']">Full name is required.</small>
+                            <small *ngIf="customerName.errors?.['minlength']">Name must be at least 2
+                                characters.</small>
+                        </div>
                     </div>
 
                     <div class="form-group">
                         <label for="customerEmail">Email</label>
                         <input type="email" id="customerEmail" name="customerEmail"
-                            [(ngModel)]="bookingFormData.customerEmail" class="form-input"
-                            placeholder="you@example.com">
+                            [(ngModel)]="bookingFormData.customerEmail" class="form-input" placeholder="you@example.com"
+                            email #customerEmail="ngModel">
+                        <div class="form-error"
+                            *ngIf="customerEmail.invalid && (customerEmail.dirty || customerEmail.touched)">
+                            <small>Enter a valid email address.</small>
+                        </div>
                     </div>
 
                     <div class="form-group">
                         <label for="customerPhone">Phone Number *</label>
                         <input type="tel" id="customerPhone" name="customerPhone"
                             [(ngModel)]="bookingFormData.customerPhone" required class="form-input"
-                            placeholder="+230 123 456 789">
+                            placeholder="+230 5707 1414" pattern="^\+?[0-9\s-]{7,15}$" #customerPhone="ngModel">
+                        <div class="form-error"
+                            *ngIf="customerPhone.invalid && (customerPhone.dirty || customerPhone.touched)">
+                            <small *ngIf="customerPhone.errors?.['required']">Phone number is required.</small>
+                            <small *ngIf="customerPhone.errors?.['pattern']">Enter a valid phone number.</small>
+                        </div>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group" *ngIf="selectedService?.id !== 'car-rental'; else carRentalDates">
                         <label for="bookingDate">Preferred Date *</label>
                         <input type="date" id="bookingDate" name="bookingDate" [(ngModel)]="bookingFormData.bookingDate"
-                            required class="form-input" [min]="today">
+                            required class="form-input" [min]="today" #bookingDate="ngModel">
+                        <div class="form-error"
+                            *ngIf="bookingDate?.invalid && (bookingDate.dirty || bookingDate.touched)">
+                            <small>Date is required.</small>
+                        </div>
                     </div>
+
+                    <ng-template #carRentalDates>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="startDate">Start Date *</label>
+                                <input type="date" id="startDate" name="startDate"
+                                    [(ngModel)]="bookingFormData.startDate" required class="form-input" [min]="today"
+                                    #startDate="ngModel">
+                                <div class="form-error"
+                                    *ngIf="startDate.invalid && (startDate.dirty || startDate.touched)">
+                                    <small>Start date is required.</small>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="endDate">End Date *</label>
+                                <input type="date" id="endDate" name="endDate" [(ngModel)]="bookingFormData.endDate"
+                                    required class="form-input" [min]="bookingFormData.startDate || today"
+                                    #endDate="ngModel">
+                                <div class="form-error" *ngIf="endDate.invalid && (endDate.dirty || endDate.touched)">
+                                    <small>End date is required and cannot be before start date.</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pricing-note" *ngIf="rentalDays > 0">
+                            <small>Estimated days: {{ rentalDays }} • Est. total: MUR {{ rentalTotal | number:'1.0-0'
+                                }}</small>
+                        </div>
+                    </ng-template>
 
                     <div class="form-group">
                         <label for="notes">Additional Notes</label>
@@ -379,7 +468,11 @@
                     <p>Thank you for your booking request! You'll receive an email confirmation shortly. Our team will
                         reach out within 2 hours to confirm availability and arrange payment manually by cash, EFT, or
                         local mobile wallet.</p>
-                    <button class="btn-primary" (click)="closeSuccessModal()">Close</button>
+                    <div class="success-actions">
+                        <a *ngIf="whatsAppUrl" class="btn-primary" [href]="whatsAppUrl" target="_blank"
+                            rel="noopener">Notify on WhatsApp</a>
+                        <button class="btn-secondary" (click)="closeSuccessModal()">Close</button>
+                    </div>
                 </div>
             </div>
         </div>

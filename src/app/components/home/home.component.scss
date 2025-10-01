@@ -115,13 +115,111 @@ $shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
   }
 }
 
-.admin-btn {
-  @include button-style;
-  background: $accent-color;
-  color: white;
+// Mobile Menu Button
+.mobile-menu-btn {
+  display: none;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 30px;
+  height: 30px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 1001;
+
+  .hamburger {
+    width: 25px;
+    height: 3px;
+    background: #ffffff;
+    transition: all 0.3s ease;
+    transform-origin: 1px;
+  }
+
+  &.active .hamburger:first-child {
+    transform: rotate(45deg);
+  }
+
+  &.active .hamburger:nth-child(2) {
+    opacity: 0;
+  }
+
+  &.active .hamburger:nth-child(3) {
+    transform: rotate(-45deg);
+  }
+}
+
+// Mobile Menu
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(15, 23, 42, 0.98);
+  backdrop-filter: blur(10px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+
+  &.active {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.mobile-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  text-align: center;
+}
+
+.mobile-nav-link {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 24px;
+  font-weight: 600;
+  transition: color 0.3s ease;
 
   &:hover {
-    background: darken($accent-color, 10%);
+    color: $accent-color;
+  }
+}
+
+// Services Filters
+.services-filters {
+  background: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(6px);
+  position: relative;
+
+  .filters {
+    display: flex;
+    gap: 16px;
+    align-items: end;
+    padding: 12px 0;
+
+    label {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      color: #fff;
+      position: relative;
+
+      select,
+      input[type="number"] {
+        padding: 8px 10px;
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        background: rgba(255, 255, 255, 0.1);
+        color: #fff;
+        outline: none;
+      }
+    }
   }
 }
 
@@ -538,6 +636,22 @@ $shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
   font-weight: 500;
 }
 
+.footer-social {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+
+  a {
+    font-size: 22px;
+    text-decoration: none;
+    transition: transform 0.2s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+    }
+  }
+}
+
 .footer-services h4,
 .footer-contact h4 {
   font-size: 18px;
@@ -640,6 +754,12 @@ $shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
   margin-bottom: 20px;
 }
 
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
 .form-group label {
   display: block;
   font-weight: 600;
@@ -665,6 +785,11 @@ $shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
   &::placeholder {
     color: $text-light;
   }
+}
+
+.form-error {
+  color: #b91c1c;
+  margin-top: 6px;
 }
 
 textarea.form-input {
@@ -726,6 +851,26 @@ textarea.form-input {
   margin: 0;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
   font-weight: 500;
+}
+
+.success-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+
+  .btn-primary {
+    @include button-style;
+    background: $success-color;
+    color: white;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .btn-secondary {
+    @include button-style;
+    background: rgba(0, 0, 0, 0.1);
+    color: #fff;
+  }
 }
 
 // Responsive Design
@@ -810,6 +955,23 @@ textarea.form-input {
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   gap: 32px;
   margin-top: 48px;
+}
+
+// Mobile-friendly testimonial carousel (CSS-only)
+@media (max-width: 768px) {
+  .testimonials-grid {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 8px;
+  }
+
+  .testimonial-card {
+    min-width: 85%;
+    scroll-snap-align: center;
+  }
 }
 
 .testimonial-card {

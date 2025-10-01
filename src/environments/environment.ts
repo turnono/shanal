@@ -25,4 +25,6 @@ export const environment = {
       port: 5001,
     },
   },
+  // Local/dev owner WhatsApp number for wa.me (E.164 without '+')
+  ownerWhatsAppNumber: "27658623499",
 };

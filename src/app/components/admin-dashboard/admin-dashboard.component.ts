@@ -43,7 +43,7 @@ import { Booking, BookingStatus } from "../../models/booking.model";
       <div *ngIf="!isAuthenticated" class="login-container">
         <div class="login-form">
           <h2>Admin Login</h2>
-          <form (ngSubmit)="login()" #loginForm="ngForm">
+          <form (ngSubmit)="login()" #loginForm="ngForm" novalidate>
             <div class="form-group">
               <label for="email">Email</label>
               <input
@@ -54,7 +54,14 @@ import { Booking, BookingStatus } from "../../models/booking.model";
                 required
                 class="form-input"
                 placeholder="admin@shanalcars.com"
+                #email="ngModel"
               />
+              <div
+                class="error-message"
+                *ngIf="email.invalid && (email.dirty || email.touched)"
+              >
+                <small>Enter a valid email address.</small>
+              </div>
             </div>
             <div class="form-group">
               <label for="password">Password</label>
@@ -66,7 +73,20 @@ import { Booking, BookingStatus } from "../../models/booking.model";
                 required
                 class="form-input"
                 placeholder="Enter your password"
+                minlength="6"
+                #password="ngModel"
               />
+              <div
+                class="error-message"
+                *ngIf="password.invalid && (password.dirty || password.touched)"
+              >
+                <small *ngIf="password.errors?.['required']"
+                  >Password is required.</small
+                >
+                <small *ngIf="password.errors?.['minlength']"
+                  >Minimum 6 characters.</small
+                >
+              </div>
             </div>
             <button
               type="submit"
@@ -418,8 +438,10 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
     return labels[status] || status;
   }
 
-  formatDate(date: Date | string): string {
+  formatDate(date: Date | string | undefined): string {
+    if (!date) return "-";
     const d = new Date(date);
+    if (isNaN(d.getTime())) return "-";
     return d.toLocaleDateString("en-US", {
       year: "numeric",
       month: "short",

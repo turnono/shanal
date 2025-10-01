@@ -12,7 +12,11 @@ import {
 } from "@angular/fire/firestore";
 import { deleteField } from "firebase/firestore";
 import { Observable } from "rxjs";
-import { Booking, BookingFormData, BookingStatus } from "../models/booking.model";
+import {
+  Booking,
+  BookingFormData,
+  BookingStatus,
+} from "../models/booking.model";
 
 @Injectable({
   providedIn: "root",
@@ -23,14 +27,30 @@ export class BookingService {
   constructor(private firestore: Firestore) {}
 
   createBooking(bookingData: BookingFormData): Promise<string> {
-    const booking: Omit<Booking, "id"> = {
-      ...bookingData,
-      customerEmail: bookingData.customerEmail?.trim() || undefined,
-      bookingDate: new Date(bookingData.bookingDate),
+    const base: Partial<Omit<Booking, "id">> = {
+      customerName: bookingData.customerName,
+      customerPhone: bookingData.customerPhone,
+      serviceName: bookingData.serviceName,
+      notes: bookingData.notes,
       status: "pending",
       createdAt: new Date(),
       updatedAt: new Date(),
     };
+
+    if (bookingData.customerEmail?.trim()) {
+      base.customerEmail = bookingData.customerEmail.trim();
+    }
+    if (bookingData.bookingDate) {
+      base.bookingDate = new Date(bookingData.bookingDate);
+    }
+    if (bookingData.startDate) {
+      base.rentalStart = new Date(bookingData.startDate);
+    }
+    if (bookingData.endDate) {
+      base.rentalEnd = new Date(bookingData.endDate);
+    }
+
+    const booking = base as Omit<Booking, "id">;
 
     return addDoc(collection(this.firestore, this.bookingsCollection), booking)
       .then((docRef) => docRef.id)
