@@ -1,7 +1,7 @@
 {
   "name": "shanal-cars-booking",
   "version": "1.0.0",
-  "description": "Shanal Cars Online Booking and Admin System",
+  "description": "Shanal Tours Online Booking and Admin System",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

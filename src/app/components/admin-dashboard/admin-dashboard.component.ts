@@ -27,7 +27,7 @@ import { Booking, BookingStatus } from "../../models/booking.model";
         <div class="container">
           <div class="header-content">
             <div class="logo">
-              <h1>Shanal Cars Admin</h1>
+              <h1>Shanal Tours Admin</h1>
             </div>
             <div class="header-actions">
               <span class="welcome-text"
@@ -488,7 +488,7 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
     const digits = booking.customerPhone.replace(/[^0-9+]/g, "");
     const phoneNumber = digits.startsWith("+") ? digits.substring(1) : digits;
     const message = encodeURIComponent(
-      `Hello ${booking.customerName}, this is Shanal Cars regarding your ${
+      `Hello ${booking.customerName}, this is Shanal Tours regarding your ${
         booking.serviceName
       } booking on ${this.formatDate(
         booking.bookingDate

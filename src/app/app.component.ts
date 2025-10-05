@@ -21,5 +21,5 @@ import { CommonModule } from "@angular/common";
   ],
 })
 export class AppComponent {
-  title = "Shanal Cars";
+  title = "Shanal Tours";
 }
